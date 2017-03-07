@@ -1,3 +1,4 @@
+# This was taken from http://stackoverflow.com/questions/2368784/draw-on-html5-canvas-using-a-mouse#answer-8398189
 $(document).ready ->
   canvas = undefined
   window.ctx = undefined
@@ -47,26 +48,11 @@ $(document).ready ->
     return
 
   color = (obj) ->
-    switch obj.id
-      when 'green'
-        x = 'green'
-      when 'blue'
-        x = 'blue'
-      when 'red'
-        x = 'red'
-      when 'yellow'
-        x = 'yellow'
-      when 'orange'
-        x = 'orange'
-      when 'black'
-        x = 'black'
-      when 'white'
-        x = 'white'
+    x = obj.id
     if x == 'white'
       y = 14
     else
-      y = 2
-    return
+      y = 3
 
   draw = ->
     App.board.draw({
@@ -77,7 +63,6 @@ $(document).ready ->
         strokeStyle: x,
         lineWidth: y,
       })
-    return
 
   erase = ->
     App.board.clear({message: "true", w: w, h: h})
