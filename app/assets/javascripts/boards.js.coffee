@@ -1,6 +1,6 @@
 $(document).ready ->
   canvas = undefined
-  ctx = undefined
+  window.ctx = undefined
   w = undefined
   h = undefined
   flag = false
@@ -10,7 +10,7 @@ $(document).ready ->
   currY = 0
   dot_flag = false
   x = 'black'
-  y = 2
+  y = 3
 
   $("#green").on 'click', -> color(this)
   $("#blue").on 'click', -> color(this)
@@ -25,12 +25,10 @@ $(document).ready ->
 
   init = ->
     canvas = $("#board")[0]
-    ctx = canvas.getContext('2d')
+    window.ctx = canvas.getContext('2d')
     w = canvas.width
     h = canvas.height
     canvas.addEventListener 'mousemove', ((e) ->
-      # TODO implement websockets here and add drawing
-      # to all subscribers
       findxy 'move', e
       return
     ), false
@@ -71,21 +69,18 @@ $(document).ready ->
     return
 
   draw = ->
-    ctx.beginPath()
-    ctx.moveTo prevX, prevY
-    ctx.lineTo currX, currY
-    ctx.strokeStyle = x
-    ctx.lineWidth = y
-    ctx.stroke()
-    ctx.closePath()
+    App.board.draw({
+        currX: currX,
+        currY: currY,
+        prevX: prevX,
+        prevY: prevY,
+        strokeStyle: x,
+        lineWidth: y,
+      })
     return
 
   erase = ->
-    m = confirm('Want to clear')
-    if m
-      ctx.clearRect 0, 0, w, h
-      $("#canvasimg")[0].style.display = 'none'
-    return
+    App.board.clear({message: "true", w: w, h: h})
 
   findxy = (res, e) ->
     if res == 'down'
@@ -96,10 +91,10 @@ $(document).ready ->
       flag = true
       dot_flag = true
       if dot_flag
-        ctx.beginPath()
-        ctx.fillStyle = x
-        ctx.fillRect currX, currY, 2, 2
-        ctx.closePath()
+        window.ctx.beginPath()
+        window.ctx.fillStyle = x
+        window.ctx.fillRect currX, currY, 2, 2
+        window.ctx.closePath()
         dot_flag = false
     if res == 'up' or res == 'out'
       flag = false
