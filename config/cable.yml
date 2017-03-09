@@ -5,6 +5,5 @@ test:
   adapter: async
 
 production:
-  adapter: async
-  #adapter: redis
-  #url: redis://localhost:6379/1
+  adapter: redis
+  url: redis://redistogo:98bb0b298d31c17efdadf40688884de9@koi.redistogo.com:11505/
